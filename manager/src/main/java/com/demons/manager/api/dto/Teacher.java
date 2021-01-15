@@ -1,12 +1,17 @@
 package com.demons.manager.api.dto;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * @author : Outro
  * Description :
  **/
 public class Teacher {
 
+  @JSONField(name = "name")
   private String name;
+  @JSONField(name = "age")
   private Integer age;
 
   public Teacher(String name, Integer age) {
@@ -32,9 +37,6 @@ public class Teacher {
 
   @Override
   public String toString() {
-    return "Teacher{" +
-        "name='" + name + '\'' +
-        ", age=" + age +
-        '}';
+    return JSON.toJSONString(this);
   }
 }
