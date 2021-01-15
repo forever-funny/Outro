@@ -28,7 +28,7 @@ public class TeacherInterfaceImpl implements TeacherInterface {
     final TeacherExample teacherExample = new TeacherExample();
     final TeacherExample.Criteria criteria = teacherExample.createCriteria();
     if (ids.isEmpty()) {
-      return new Response<>(200, "查询参数为空", new ArrayList<>());
+      return new Response<>(Response.ERROR_CODE.OK.getCode(), "查询参数为空", new ArrayList<>());
     }
     if (ids.size() == 1 && ids.get(0) < 0) {
       // 当只传一个参数且为负数时,默认查询全部
@@ -37,7 +37,7 @@ public class TeacherInterfaceImpl implements TeacherInterface {
       criteria.andIdIn(ids);
     }
     final List<Teacher> teacherList = teacherMapper.selectByExample(teacherExample);
-    return new Response<>(200, "get teacher info complete", teacherList);
+    return new Response<>(Response.ERROR_CODE.OK.getCode(), "get teacher info complete", teacherList);
   }
 
   @Override
@@ -46,11 +46,11 @@ public class TeacherInterfaceImpl implements TeacherInterface {
       for (Integer id : ids) {
         final int delete = teacherMapper.deleteByPrimaryKey(id);
         if (delete != 1) {
-          return new Response<>(20001, "delete fail");
+          return new Response<>(Response.ERROR_CODE.BUSINESS.getCode(), "delete fail");
         }
       }
     }
-    return new Response<>(200, "delete ok");
+    return new Response<>(Response.ERROR_CODE.OK.getCode(), "delete ok");
   }
 
   @Override
@@ -59,11 +59,11 @@ public class TeacherInterfaceImpl implements TeacherInterface {
       int result = teacherMapper.insert(teacher);
       if (result != 1) {
         final String reason = "insert fail! " + teacher.toString();
-        return new Response<>(20002, reason);
+        return new Response<>(Response.ERROR_CODE.BUSINESS.getCode(), reason);
       }
     }
     final String reason = "insert complete, size:" + teacherList.size();
-    return new Response<>(200, reason);
+    return new Response<>(Response.ERROR_CODE.OK.getCode(), reason);
   }
 
   @Override
@@ -75,9 +75,9 @@ public class TeacherInterfaceImpl implements TeacherInterface {
       teacher.setId(id);
       final int result = teacherMapper.updateByExampleSelective(teacher, teacherExample);
       if (result == 1) {
-        return new Response<>(200, "update ok");
+        return new Response<>(Response.ERROR_CODE.OK.getCode(), "update ok");
       }
     }
-    return new Response<>(20003, "update fail");
+    return new Response<>(Response.ERROR_CODE.BUSINESS.getCode(), "update fail");
   }
 }
