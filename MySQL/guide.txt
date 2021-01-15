@@ -1,0 +1,2 @@
+1.新建数据库:managerdb
+2.使用utf8mb4字符集
