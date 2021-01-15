@@ -2,7 +2,7 @@ package com.demons.manager.api.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.demons.manager.api.service.TeacherInterface;
+import com.demons.manager.api.service.impl.TeacherInterfaceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -26,8 +26,16 @@ public class TeacherController {
 
   private static final Logger logger = LoggerFactory.getLogger(TeacherController.class);
 
+  final TeacherInterfaceImpl teacherInterface;
+
+  /**
+   * 实测在使用构造方式注入时@Autowired注解可有可无
+   * @param teacherInterface 接口实现类
+   */
   @Autowired
-  TeacherInterface teacherInterface;
+  public TeacherController(TeacherInterfaceImpl teacherInterface) {
+    this.teacherInterface = teacherInterface;
+  }
 
   @ApiOperation(value = "查询教师信息")
   @GetMapping(value = "/getTeacherInfo")

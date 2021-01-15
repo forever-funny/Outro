@@ -1,7 +1,6 @@
 package com.demons.manager.api.dto;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * @author : Outro
@@ -9,9 +8,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  **/
 public class Teacher {
 
-  @JSONField(name = "name")
   private String name;
-  @JSONField(name = "age")
   private Integer age;
 
   public Teacher(String name, Integer age) {
