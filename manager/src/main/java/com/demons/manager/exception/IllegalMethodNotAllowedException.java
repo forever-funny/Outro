@@ -1,4 +1,4 @@
-package com.demons.manager.backstage.exception;
+package com.demons.manager.exception;
 
 /**
  * @author Outro
