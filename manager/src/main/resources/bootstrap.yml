@@ -18,3 +18,5 @@ spring:
         server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
         namespace: 121d8fb4-3020-4018-8a69-8b1e332b847f
         group: MANAGER
+logging:
+  config: classpath:logback.xml

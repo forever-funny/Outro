@@ -5,8 +5,7 @@ import com.demons.manager.api.service.TeacherInterface;
 import org.springframework.stereotype.Service;
 
 /**
- * @author : ♞Demons♛
- * @date : 2020-10-18 0:56
+ * @author : Outro
  * Description :
  **/
 @Service

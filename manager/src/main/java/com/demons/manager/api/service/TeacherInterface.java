@@ -2,8 +2,7 @@ package com.demons.manager.api.service;
 
 
 /**
- * @author : ♞Demons♛
- * @date : 2020-10-18 0:56
+ * @author : Outro
  * Description :
  **/
 public interface TeacherInterface {

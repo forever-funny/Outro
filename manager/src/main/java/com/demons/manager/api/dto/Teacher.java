@@ -1,8 +1,7 @@
 package com.demons.manager.api.dto;
 
 /**
- * @author : Administrator
- * @date : 2021-01-15 0015 16:58
+ * @author : Outro
  * Description :
  **/
 public class Teacher {
