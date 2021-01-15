@@ -1,0 +1,10 @@
+1.nacos需要开启权限控制,配置如下(可选):
+nacos.core.auth.enabled=true
+
+2.nacos配置命名空间(必选)
+命名空间名称:MANAGER
+命名空间ID:121d8fb4-3020-4018-8a69-8b1e332b847f
+
+3.配置中心-在配置的命名空间下导入nacos_config_export.zip配置文件
+
+
