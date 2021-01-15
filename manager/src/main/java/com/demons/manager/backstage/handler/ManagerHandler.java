@@ -80,7 +80,7 @@ public class ManagerHandler extends SimpleChannelInboundHandler<FullHttpRequest>
             }
             final byte[] body = getBodyBytes(request);
             // 执行业务逻辑并返回响应
-            Response response = functionHandler.execute(tmpHeader, body);
+            Response<Object> response = functionHandler.execute(tmpHeader, body);
             return NettyHttpResponse.ok(response.toString());
         } catch (IllegalMethodNotAllowedException error) {
             return NettyHttpResponse.make(HttpResponseStatus.METHOD_NOT_ALLOWED);
@@ -93,19 +93,15 @@ public class ManagerHandler extends SimpleChannelInboundHandler<FullHttpRequest>
     }
     
     private void getRemoteIpAddress(ChannelHandlerContext context, NettyHttpRequest request, Map<String, String> tmpHeader) {
-        // 优先使用探针自定义的客户端ip地址
-        String clientIp = request.headers().get( "Agent-Ip" );
         // 获取ng转发的客户端ip地址
-        if (clientIp == null) {
-            clientIp = request.headers().get( "X-Forwarded-For" );
-        }
+        String clientIp = request.headers().get( "X-Forwarded-For" );
         if  (clientIp == null) {
             InetSocketAddress inetSocketAddress = (InetSocketAddress) context.channel()
                     .remoteAddress();
             clientIp = inetSocketAddress.getAddress().getHostAddress();
         }
         if (clientIp != null) {
-            tmpHeader.put("agent-ip", clientIp);
+            tmpHeader.put("client-ip", clientIp);
         }
     }
     
@@ -175,7 +171,7 @@ public class ManagerHandler extends SimpleChannelInboundHandler<FullHttpRequest>
     
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        logger.error("ControllerHandler catch exception!", cause);
+        logger.error("ManagerHandler catch exception!", cause);
         ctx.close();
     }
 }

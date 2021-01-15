@@ -16,5 +16,5 @@ public interface IFunctionHandler {
      * @param body body
      * @return 响应
      */
-    Response execute(Map<String, String> header, byte[] body);
+    Response<Object> execute(Map<String, String> header, byte[] body);
 }
