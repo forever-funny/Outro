@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: manager
+  profiles:
+    active: dev
   cloud:
     nacos:
       config:
@@ -11,12 +13,41 @@ spring:
         context-path: /nacos
         server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
         file-extension: yml
-        group: CONFIG_MANAGER
       discovery:
         username: nacos
         password: nacos
         server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
-        namespace: 121d8fb4-3020-4018-8a69-8b1e332b847f
-        group: MANAGER
 logging:
   config: classpath:logback.xml
+# 各个环境的配置应该使用namespace和group进行区分
+# 但是nacos地址,用户名,密码应当唯一不变
+---
+spring:
+  profiles: dev
+  cloud:
+    nacos:
+      config:
+        group: CONFIG_MANAGER
+      discovery:
+        namespace: 121d8fb4-3020-4018-8a69-8b1e332b847f
+        group: MANAGER
+---
+spring:
+  profiles: test
+  cloud:
+    nacos:
+      config:
+        group: CONFIG_MANAGER
+      discovery:
+        namespace: 121d8fb4-3020-4018-8a69-8b1e332b847f
+        group: MANAGER
+---
+spring:
+  profiles: product
+  cloud:
+    nacos:
+      config:
+        group: CONFIG_MANAGER
+      discovery:
+        namespace: 121d8fb4-3020-4018-8a69-8b1e332b847f
+        group: MANAGER

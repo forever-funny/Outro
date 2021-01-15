@@ -12,10 +12,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class ScheduleJob {
 
-    @Autowired
-    PrintJob printJob;
+    final PrintJob printJob;
 
-    @Scheduled(fixedDelayString = "${UPDATE_PRINT_INTERVAL:5000}")
+    @Autowired
+    public ScheduleJob(PrintJob printJob) {
+        this.printJob = printJob;
+    }
+
+    @Scheduled(fixedDelay = 10_000)
     public void printJob() {
         printJob.run();
     }
