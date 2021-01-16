@@ -21,7 +21,7 @@ public class ScheduleConfig implements SchedulingConfigurer {
 
   private static final Logger logger = LoggerFactory.getLogger(ScheduleConfig.class);
 
-  @Value("${SCHEDULE_THREAD_NUMBER:2}")
+  @Value("${schedule.thread-number:1}")
   int threadNumber;
 
   private final ThreadFactory factory = new ThreadFactory() {
