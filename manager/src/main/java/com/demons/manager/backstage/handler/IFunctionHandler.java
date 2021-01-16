@@ -9,12 +9,12 @@ import java.util.Map;
  * 数据解析接口
  */
 public interface IFunctionHandler {
-    
-    /**
-     * 处理请求
-     * @param header 请求头
-     * @param body body
-     * @return 响应
-     */
-    Response<Object> execute(Map<String, String> header, byte[] body);
+
+  /**
+   * 处理请求
+   * @param header 请求头
+   * @param body body
+   * @return 响应
+   */
+  Response<Object> execute(Map<String, String> header, byte[] body);
 }

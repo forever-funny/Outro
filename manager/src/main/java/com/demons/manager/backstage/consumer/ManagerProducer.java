@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -22,7 +21,7 @@ public class ManagerProducer {
 
   private static final Logger logger = LoggerFactory.getLogger(ManagerProducer.class);
 
-  private KafkaProducer<String, String> producer;
+  private static KafkaProducer<String, String> producer;
 
   @Value("${kafka.producer.key-serializer:org.apache.kafka.common.serialization.StringSerializer}")
   String keySerializer;
@@ -35,27 +34,32 @@ public class ManagerProducer {
   @Value("${kafka.producer.request-message-size:10485760}")
   Integer requestMessageSize;
 
-  public void initProducer() {
+  public synchronized void initProducer() {
     logger.info("start init manager kafka producer...");
+    Properties properties = getKafkaProducerParams();
+    producer = new KafkaProducer<>(properties);
+    logger.info("Manager kafka producer init over, kafka props:{}", properties);
+  }
+
+  private Properties getKafkaProducerParams() {
     final Properties properties = new Properties();
     properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, keySerializer);
     properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valueSerializer);
     properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootStrapServer);
     properties.put(ProducerConfig.MAX_REQUEST_SIZE_CONFIG, requestMessageSize);
-    producer = new KafkaProducer<>(properties);
-    logger.info("Manager kafka producer init over, kafka props:{}", properties);
+    return properties;
   }
 
   /**
-   * producer是线程安全的,可以使用单例
+   * producer是线程安全的
    * @param data 需要发送的数据
    */
-  public void sendData2Kafka(byte[] data) {
+  public void sendData2Kafka(String data) {
     try {
       if (producer == null) {
         initProducer();
       }
-      ProducerRecord<String, String> record = new ProducerRecord<>(topic, new String(data, StandardCharsets.UTF_8));
+      ProducerRecord<String, String> record = new ProducerRecord<>(topic, data);
       producer.send(record, new ProducerCallback(System.currentTimeMillis()));
     } catch (Exception e) {
       logger.error("Manager kafka producer send data catch exception!", e);

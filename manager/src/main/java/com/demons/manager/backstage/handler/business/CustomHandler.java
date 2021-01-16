@@ -3,9 +3,14 @@ package com.demons.manager.backstage.handler.business;
 import com.demons.manager.backstage.annotation.NettyHttpHandler;
 import com.demons.manager.backstage.consumer.ManagerProducer;
 import com.demons.manager.backstage.handler.IFunctionHandler;
+import com.demons.manager.utils.CompressionUtil;
 import com.demons.manager.utils.Response;
+import com.github.luben.zstd.Zstd;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -14,6 +19,8 @@ import java.util.Map;
  */
 @NettyHttpHandler(path = "/upload/v1/custom")
 public class CustomHandler implements IFunctionHandler {
+
+  private static final Logger logger = LoggerFactory.getLogger(CustomHandler.class);
 
   @Autowired
   ManagerProducer managerProducer;
@@ -25,7 +32,24 @@ public class CustomHandler implements IFunctionHandler {
    */
   @Override
   public Response<Object> execute(Map<String, String> header, byte[] body) {
-    managerProducer.sendData2Kafka(body);
+    String data = getStrData(header, body);
+    managerProducer.sendData2Kafka(data);
     return new Response<>(200, "Data received successfully!");
+  }
+
+  private String getStrData(Map<String, String> header, byte[] body) {
+    final String contentEncoding = header.get("content-encoding");
+    if (contentEncoding == null || "json".equalsIgnoreCase(contentEncoding)) {
+      return new String(body, StandardCharsets.UTF_8);
+    }
+    switch (contentEncoding) {
+      case "gzip":
+        return CompressionUtil.unzipData(body);
+      case "zstd":
+        return new String(Zstd.decompress(body, 1024 * 1024 * 10), StandardCharsets.UTF_8);
+      default:
+        logger.warn("unknown content-encoding:{}, just skip!", contentEncoding);
+        return "{}";
+    }
   }
 }

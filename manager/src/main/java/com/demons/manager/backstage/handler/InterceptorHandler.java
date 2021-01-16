@@ -17,26 +17,26 @@ import org.springframework.stereotype.Component;
 @ChannelHandler.Sharable
 @Component
 public class InterceptorHandler extends ChannelInboundHandlerAdapter {
-    
-    private static final Logger logger = LoggerFactory.getLogger(InterceptorHandler.class);
-    
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        FullHttpRequest request = (FullHttpRequest) msg;
-        HttpHeaders headers = request.headers();
-        logger.info("show original request headers:{}", headers);
-        // 这里可以增加鉴权,限量等业务逻辑
-        ctx.fireChannelRead(msg);
-    }
-    
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) {
-        ctx.flush();
-    }
-    
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        logger.error("InterceptorHandler catch exception!", cause);
-        ctx.close();
-    }
+
+  private static final Logger logger = LoggerFactory.getLogger(InterceptorHandler.class);
+
+  @Override
+  public void channelRead(ChannelHandlerContext ctx, Object msg) {
+    FullHttpRequest request = (FullHttpRequest) msg;
+    HttpHeaders headers = request.headers();
+    logger.info("show original request headers:{}", headers);
+    // 这里可以增加鉴权,限量等业务逻辑
+    ctx.fireChannelRead(msg);
+  }
+
+  @Override
+  public void channelReadComplete(ChannelHandlerContext ctx) {
+    ctx.flush();
+  }
+
+  @Override
+  public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+    logger.error("InterceptorHandler catch exception!", cause);
+    ctx.close();
+  }
 }

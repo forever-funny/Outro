@@ -90,6 +90,12 @@
       <groupId>org.apache.kafka</groupId>
       <artifactId>kafka-clients</artifactId>
     </dependency>
+    <!-- zstd解压缩工具 -->
+    <dependency>
+      <groupId>com.github.luben</groupId>
+      <artifactId>zstd-jni</artifactId>
+      <version>1.4.4-9</version>
+    </dependency>
   </dependencies>
 
   <dependencyManagement>
