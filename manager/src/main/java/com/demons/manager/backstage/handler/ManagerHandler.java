@@ -44,7 +44,7 @@ public class ManagerHandler extends SimpleChannelInboundHandler<FullHttpRequest>
   /**
    * 这个map必须是静态的!!!
    */
-  private static Map<Path, IFunctionHandler> functionHandlerMap = new HashMap<>();
+  private static final Map<Path, IFunctionHandler> FUNCTION_HANDLER_MAP = new HashMap<>();
 
   @Override
   protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) {
@@ -123,27 +123,28 @@ public class ManagerHandler extends SimpleChannelInboundHandler<FullHttpRequest>
     for (Map.Entry<String, Object> entry : handlers.entrySet()) {
       Object handler = entry.getValue();
       Path path = Path.make(handler.getClass().getAnnotation(NettyHttpHandler.class));
-      if (functionHandlerMap.containsKey(path)) {
+      if (FUNCTION_HANDLER_MAP.containsKey(path)) {
         // 不允许出现相同uri的handler
         logger.error("The same uri handler is not allowed!");
         System.exit(1);
       }
-      functionHandlerMap.put(path, (IFunctionHandler) handler);
+      FUNCTION_HANDLER_MAP.put(path, (IFunctionHandler) handler);
     }
-    logger.info("show uri map:{}", functionHandlerMap);
+    logger.info("show netty handler uri map:{}", FUNCTION_HANDLER_MAP);
   }
 
   /**
    * 根据uri返回不同的handler
    * @param request 请求
    * @return 对应的业务
-   * @throws Exception 异常
+   * @throws IllegalPathNotFoundException 路径不合法异常
+   * @throws IllegalMethodNotAllowedException 方法不合法异常
    */
   private IFunctionHandler matchFunctionHandler(NettyHttpRequest request) throws
       IllegalPathNotFoundException, IllegalMethodNotAllowedException {
     AtomicBoolean matched = new AtomicBoolean(false);
     Predicate<Path> pathPredicate = s -> request.isAllowed(s.getMethod());
-    Stream<Path> stream = functionHandlerMap.keySet().stream()
+    Stream<Path> stream = FUNCTION_HANDLER_MAP.keySet().stream()
         .filter((path -> {
           // 过滤 Path URI 不匹配的
           if (request.matched(path.getUri(), path.isEqual())) {
@@ -164,7 +165,7 @@ public class ManagerHandler extends SimpleChannelInboundHandler<FullHttpRequest>
     if (!optional.isPresent()) {
       throw new IllegalPathNotFoundException();
     }
-    return functionHandlerMap.get(optional.get());
+    return FUNCTION_HANDLER_MAP.get(optional.get());
   }
 
   @Override

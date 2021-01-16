@@ -1,5 +1,6 @@
 package com.demons.manager.config;
 
+import com.demons.manager.backstage.consumer.ManagerProducer;
 import com.demons.manager.backstage.netty.NettyServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -16,9 +17,12 @@ public class ManagerApplicationContextAware implements ApplicationContextAware {
 
   @Autowired
   NettyServer nettyServer;
+  @Autowired
+  ManagerProducer managerProducer;
 
   @Override
   public void setApplicationContext(ApplicationContext applicationContext) {
+    managerProducer.initProducer();
     nettyServer.start();
   }
 }

@@ -30,21 +30,20 @@ public class NettyServer {
 
   @Value("${netty.port:1218}")
   int port;
-
-  /** 必须采用注解形式,因为该实例中也包含了注解 */
-  @Resource
-  InterceptorHandler interceptorHandler;
-
-  @Resource
-  ManagerHandler managerHandler;
-
   /** boss个数一般一个即可 */
-  private int bossGroupThreadNum = 1;
+  @Value("${netty.boss-number:1}")
+  int bossGroupThreadNum;
   /** worker个数默认为 cpu核数 * 2 */
-  private int workerGroupThreadNum = 4;
+  @Value("${netty.worker-number:4}")
+  int workerGroupThreadNum;
   /** 读取超时时间,单位:秒 */
   @Value("${netty.timeout-sec:60}")
   int readTimeoutSecond;
+  /** 必须采用注解形式,因为该实例中也包含了注解 */
+  @Resource
+  InterceptorHandler interceptorHandler;
+  @Resource
+  ManagerHandler managerHandler;
 
   public void start() {
     logger.info("Manager Netty server start...");
