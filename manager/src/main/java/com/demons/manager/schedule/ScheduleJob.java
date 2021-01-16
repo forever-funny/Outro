@@ -19,7 +19,7 @@ public class ScheduleJob {
         this.printJob = printJob;
     }
 
-    @Scheduled(fixedDelay = 60_000)
+    @Scheduled(fixedDelayString = "${schedule.print-job-interval:60000}")
     public void printJob() {
         printJob.run();
     }
