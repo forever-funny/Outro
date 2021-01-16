@@ -25,5 +25,5 @@ public @interface NettyHttpHandler {
      * path和请求路径是否需要完全匹配。 如果是PathVariable传参数，设置为false
      * @return 结果
      */
-    boolean equal() default true;
+    boolean equals() default true;
 }

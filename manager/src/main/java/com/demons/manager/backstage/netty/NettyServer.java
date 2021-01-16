@@ -93,9 +93,8 @@ public class NettyServer {
       }
     });
 
-    ChannelFuture channelFuture = bootstrap.bind(port).syncUninterruptibly().addListener(future -> {
-      logger.info("Manager Netty server start successfully! port:{}", port);
-    });
+    ChannelFuture channelFuture = bootstrap.bind(port).syncUninterruptibly().addListener(
+        future -> logger.info("Manager Netty server start successfully! port:{}", port));
     channelFuture.channel().closeFuture().addListener(future -> {
       logger.info("Manager Netty Server Shutdown...");
       bossGroup.shutdownGracefully();

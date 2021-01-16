@@ -19,7 +19,7 @@ public class Path {
     public Path(NettyHttpHandler annotation) {
         method = annotation.method();
         uri = annotation.path();
-        equal = annotation.equal();
+        equal = annotation.equals();
     }
     
     public String getMethod() {

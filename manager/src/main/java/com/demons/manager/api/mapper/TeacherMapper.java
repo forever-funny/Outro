@@ -3,9 +3,11 @@ package com.demons.manager.api.mapper;
 import com.demons.manager.api.entity.Teacher;
 import com.demons.manager.api.entity.TeacherExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface TeacherMapper {
   int countByExample(TeacherExample example);
 

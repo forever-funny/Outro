@@ -149,10 +149,10 @@ public class ManagerHandler extends SimpleChannelInboundHandler<FullHttpRequest>
                         return matched.get();
                     }
                     return false;
-                }).and(path -> {
+                }).and(path ->
                     // 过滤 Method 匹配的
-                    return request.isAllowed(path.getMethod());
-                }));
+                    request.isAllowed(path.getMethod())
+                ));
         Optional<Path> optional = stream.findFirst();
         stream.close();
         if (!optional.isPresent() && !matched.get()) {
@@ -161,6 +161,9 @@ public class ManagerHandler extends SimpleChannelInboundHandler<FullHttpRequest>
         if (!optional.isPresent() && matched.get()) {
             throw new IllegalMethodNotAllowedException();
         }
+      if (!optional.isPresent()) {
+        throw new IllegalPathNotFoundException();
+      }
         return functionHandlerMap.get(optional.get());
     }
     
