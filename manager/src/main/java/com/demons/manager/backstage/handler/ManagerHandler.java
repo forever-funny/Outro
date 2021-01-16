@@ -52,7 +52,7 @@ public class ManagerHandler extends SimpleChannelInboundHandler<FullHttpRequest>
     try {
       onReceivedRequest(ctx, new NettyHttpRequest(copyRequest));
     } catch (Exception e) {
-      logger.error("controller handler execute exception!", e);
+      logger.error("ManagerHandler handler execute exception!", e);
     }
   }
 
