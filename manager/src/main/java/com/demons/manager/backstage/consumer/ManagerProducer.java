@@ -22,7 +22,7 @@ public class ManagerProducer {
 
   private static final Logger logger = LoggerFactory.getLogger(ManagerProducer.class);
 
-  private static KafkaProducer<String, String> producer;
+  private KafkaProducer<String, String> producer;
 
   @Value("${kafka.producer.key-serializer:org.apache.kafka.common.serialization.StringSerializer}")
   String keySerializer;
@@ -42,9 +42,7 @@ public class ManagerProducer {
     properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valueSerializer);
     properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootStrapServer);
     properties.put(ProducerConfig.MAX_REQUEST_SIZE_CONFIG, requestMessageSize);
-    if (producer == null) {
-      producer = new KafkaProducer<>(properties);
-    }
+    producer = new KafkaProducer<>(properties);
     logger.info("Manager kafka producer init over, kafka props:{}", properties);
   }
 
@@ -54,8 +52,9 @@ public class ManagerProducer {
    */
   public void sendData2Kafka(byte[] data) {
     try {
-      logger.info("producer topic:{}", topic);
-      logger.info("producer data:{}", new String(data, StandardCharsets.UTF_8));
+      if (producer == null) {
+        initProducer();
+      }
       ProducerRecord<String, String> record = new ProducerRecord<>(topic, new String(data, StandardCharsets.UTF_8));
       producer.send(record, new ProducerCallback(System.currentTimeMillis()));
     } catch (Exception e) {
