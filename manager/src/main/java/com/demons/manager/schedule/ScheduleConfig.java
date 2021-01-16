@@ -23,13 +23,15 @@ public class ScheduleConfig implements SchedulingConfigurer {
 
   @Value("${schedule.thread-number:1}")
   int threadNumber;
+  @Value("${schedule.thread-prefix:schedule}")
+  String prefix;
 
   private final ThreadFactory factory = new ThreadFactory() {
     int counter;
     @Override
     public Thread newThread(Runnable r) {
       final Thread t = new Thread(r);
-      t.setName("schedule-" + counter++);
+      t.setName(prefix + "-" + counter++);
       return t;
     }
   };
