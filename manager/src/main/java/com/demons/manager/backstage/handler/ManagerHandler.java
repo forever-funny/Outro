@@ -126,7 +126,7 @@ public class ManagerHandler extends SimpleChannelInboundHandler<FullHttpRequest>
       if (functionHandlerMap.containsKey(path)) {
         // 不允许出现相同uri的handler
         logger.error("The same uri handler is not allowed!");
-        System.exit(0);
+        System.exit(1);
       }
       functionHandlerMap.put(path, (IFunctionHandler) handler);
     }
@@ -141,20 +141,18 @@ public class ManagerHandler extends SimpleChannelInboundHandler<FullHttpRequest>
    */
   private IFunctionHandler matchFunctionHandler(NettyHttpRequest request) throws
       IllegalPathNotFoundException, IllegalMethodNotAllowedException {
-    // 没看懂...
     AtomicBoolean matched = new AtomicBoolean(false);
+    Predicate<Path> pathPredicate = s -> request.isAllowed(s.getMethod());
     Stream<Path> stream = functionHandlerMap.keySet().stream()
-        .filter(((Predicate<Path>) path -> {
+        .filter((path -> {
           // 过滤 Path URI 不匹配的
           if (request.matched(path.getUri(), path.isEqual())) {
             matched.set(true);
-            return matched.get();
+            return true;
           }
           return false;
-        }).and(path ->
-            // 过滤 Method 匹配的
-            request.isAllowed(path.getMethod())
-        ));
+        })
+        ).filter(pathPredicate);
     Optional<Path> optional = stream.findFirst();
     stream.close();
     if (!optional.isPresent() && !matched.get()) {
