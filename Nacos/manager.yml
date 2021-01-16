@@ -1,0 +1,14 @@
+# 定义netty服务器相关参数
+netty:
+  port: 1218
+  boss-number: 1
+  worker-number: 4
+  timeout-sec: 60
+# 定义kafka相关配置参数
+kakfa:
+  host: 192.168.1.20:9092
+  consumer:
+    topic: manager_consumer_1
+    group: default
+  producer:
+    topic: manager_producer_1

@@ -14,6 +14,7 @@ import io.netty.handler.stream.ChunkedWriteHandler;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -27,7 +28,8 @@ public class NettyServer {
 
   private static final Logger logger = LoggerFactory.getLogger(NettyServer.class);
 
-  int port = 1218;
+  @Value("${netty.port:1218}")
+  int port;
 
   /** 必须采用注解形式,因为该实例中也包含了注解 */
   @Resource
@@ -41,7 +43,8 @@ public class NettyServer {
   /** worker个数默认为 cpu核数 * 2 */
   private int workerGroupThreadNum = 4;
   /** 读取超时时间,单位:秒 */
-  private int readTimeoutSecond = 60;
+  @Value("${netty.timeout-sec:60}")
+  int readTimeoutSecond;
 
   public void start() {
     logger.info("Manager Netty server start...");

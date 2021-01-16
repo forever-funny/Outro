@@ -12,9 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @MapperScan(value = "com.demons.manager.api.mapper")
 public class ManagerApplication {
-
   public static void main(String[] args) {
     SpringApplication.run(ManagerApplication.class, args);
   }
-
 }

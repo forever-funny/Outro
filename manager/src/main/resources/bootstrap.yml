@@ -12,11 +12,13 @@ spring:
         password: nacos
         context-path: /nacos
         server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+        namespace: 121d8fb4-3020-4018-8a69-8b1e332b847f
         file-extension: yml
       discovery:
         username: nacos
         password: nacos
         server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+        namespace: 121d8fb4-3020-4018-8a69-8b1e332b847f
 # MySQL配置
   datasource:
     username: root
@@ -46,7 +48,6 @@ spring:
       config:
         group: CONFIG_MANAGER
       discovery:
-        namespace: 121d8fb4-3020-4018-8a69-8b1e332b847f
         group: MANAGER
 ---
 spring:
