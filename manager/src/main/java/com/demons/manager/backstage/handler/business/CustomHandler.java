@@ -3,7 +3,7 @@ package com.demons.manager.backstage.handler.business;
 import com.demons.manager.backstage.annotation.NettyHttpHandler;
 import com.demons.manager.backstage.consumer.ManagerProducer;
 import com.demons.manager.backstage.handler.IFunctionHandler;
-import com.demons.manager.utils.CompressionUtil;
+import com.demons.manager.utils.CompressionUtils;
 import com.demons.manager.utils.Response;
 import com.github.luben.zstd.Zstd;
 import org.slf4j.Logger;
@@ -44,7 +44,7 @@ public class CustomHandler implements IFunctionHandler {
     }
     switch (contentEncoding) {
       case "gzip":
-        return CompressionUtil.unzipData(body);
+        return CompressionUtils.unzipData(body);
       case "zstd":
         return new String(Zstd.decompress(body, 1024 * 1024 * 10), StandardCharsets.UTF_8);
       default:

@@ -1,7 +1,5 @@
 package com.demons.manager.utils;
 
-import com.alibaba.fastjson.JSON;
-
 /**
  * @author Outro
  * 统一定义响应格式,内容,错误码
@@ -74,6 +72,10 @@ public class Response<T> {
 
   @Override
   public String toString() {
-    return JSON.toJSONString(this);
+    return "Response{" +
+        "code=" + code +
+        ", reason='" + reason + '\'' +
+        ", result=" + result +
+        '}';
   }
 }

@@ -1,7 +1,5 @@
 package com.demons.manager.api.entity;
 
-import com.alibaba.fastjson.JSON;
-
 /**
  * @author Outro
  */
@@ -63,6 +61,11 @@ public class Teacher {
 
   @Override
   public String toString() {
-    return JSON.toJSONString(this);
+    return "Teacher{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", age=" + age +
+        ", info='" + info + '\'' +
+        '}';
   }
 }

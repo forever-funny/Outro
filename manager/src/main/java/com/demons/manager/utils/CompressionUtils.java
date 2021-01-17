@@ -1,6 +1,5 @@
 package com.demons.manager.utils;
 
-import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,11 +13,11 @@ import java.util.zip.GZIPOutputStream;
  * @author Outro
  * 使用gzip进行数据的压缩和解压缩
  */
-public class CompressionUtil {
+public class CompressionUtils {
 
-  private static final Logger logger = LoggerFactory.getLogger(CompressionUtil.class);
+  private static final Logger logger = LoggerFactory.getLogger(CompressionUtils.class);
 
-  private CompressionUtil() {
+  private CompressionUtils() {
   }
 
   /**
@@ -43,7 +42,7 @@ public class CompressionUtil {
       boos.close();
     } catch (IOException e) {
       logger.error("Get gzip data exception!", e);
-      return new JSONObject().toJSONString();
+      return "{}";
     }
     return result;
   }

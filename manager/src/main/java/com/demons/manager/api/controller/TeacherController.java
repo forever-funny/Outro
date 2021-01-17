@@ -1,17 +1,15 @@
 package com.demons.manager.api.controller;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.demons.manager.api.entity.Teacher;
 import com.demons.manager.api.service.impl.TeacherInterfaceImpl;
+import com.demons.manager.utils.JacksonUtils;
 import com.demons.manager.utils.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author : Outro
@@ -59,14 +57,14 @@ public class TeacherController {
 
   @ApiOperation(value = "测试json格式展示结构")
   @RequestMapping(value = "/tests", method = {RequestMethod.GET, RequestMethod.POST})
-  public JSONObject testJson() {
-    final JSONObject jsonObject = new JSONObject();
-    final JSONArray jsonArray = new JSONArray();
+  public String testJson() {
+    final Map<String, Object> map = new HashMap<>();
+    final ArrayList<String> array = new ArrayList<>();
     for (int i = 0; i < 5; i++) {
-      jsonObject.put(i + "", UUID.randomUUID().toString());
-      jsonArray.add(UUID.randomUUID().toString());
+      map.put(i + "", UUID.randomUUID().toString());
+      array.add(UUID.randomUUID().toString());
     }
-    jsonObject.put("arr", jsonArray);
-    return jsonObject;
+    map.put("arr", array);
+    return JacksonUtils.map2JsonString(map);
   }
 }
