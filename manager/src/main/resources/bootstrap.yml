@@ -19,7 +19,7 @@ spring:
         password: nacos
         server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
         namespace: 121d8fb4-3020-4018-8a69-8b1e332b847f
-# MySQL配置
+  # MySQL配置
   datasource:
     username: root
     password: 123456

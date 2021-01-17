@@ -12,16 +12,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class ScheduleJob {
 
-    final PrintJob printJob;
+  final PrintJob printJob;
 
-    @Autowired
-    public ScheduleJob(PrintJob printJob) {
-        this.printJob = printJob;
-    }
+  @Autowired
+  public ScheduleJob(PrintJob printJob) {
+    this.printJob = printJob;
+  }
 
-    @Scheduled(fixedDelayString = "${schedule.print-job-interval:60000}")
-    public void printJob() {
-        printJob.run();
-    }
+  @Scheduled(fixedDelayString = "${schedule.print-job-interval:60000}")
+  public void printJob() {
+    printJob.run();
+  }
 
 }
