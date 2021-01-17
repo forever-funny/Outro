@@ -34,7 +34,7 @@ public class TeacherController {
   }
 
   @ApiOperation(value = "查询教师信息")
-  @RequestMapping(value = "/getTeacherInfo", method = {RequestMethod.GET, RequestMethod.POST})
+  @GetMapping(value = "/getTeacherInfo")
   public Response<List<Teacher>> getTeacherInfo(@RequestParam List<Integer> ids) {
     return teacherInterface.getTeacherInfo(ids);
   }
@@ -46,13 +46,13 @@ public class TeacherController {
   }
 
   @ApiOperation(value = "删除教师信息")
-  @GetMapping(value = "/deleteTeacherInfo")
+  @DeleteMapping(value = "/deleteTeacherInfo")
   public Response<Object> deleteTeacherInfo(@RequestParam List<Integer> ids) {
     return teacherInterface.deleteTeacherInfo(ids);
   }
 
   @ApiOperation(value = "更新教师信息")
-  @PostMapping(value = "/updateTeacherInfo")
+  @PutMapping(value = "/updateTeacherInfo")
   public Response<Object> updateTeacherInfo(@RequestParam Integer id, @RequestBody Teacher teacher) {
     return teacherInterface.updateTeacherInfo(id, teacher);
   }
