@@ -23,7 +23,7 @@ public class JacksonUtilsTest extends TestCase {
     final String jsonString = "{\"name\":\"xiha\",\"age\":666,\"result\":{\"nani\":\"wuwu\"}}";
     System.out.println(JacksonUtils.jsonString2Pojo(jsonString, Teacher.class));
     System.out.println(JacksonUtils.jsonString2Map(jsonString));
-    final HashMap<Object, Object> map = new HashMap<>();
+    final HashMap<String, Object> map = new HashMap<>();
     map.put("a", "aa");
     map.put("b", "bb");
     System.out.println(JacksonUtils.map2JsonString(map));

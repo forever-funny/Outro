@@ -79,7 +79,7 @@ public class JacksonUtils {
    * @param jsonString 字符串
    * @return map结构
    */
-  public static Map jsonString2Map(String jsonString) {
+  public static Map<String, Object> jsonString2Map(String jsonString) {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     try {
@@ -93,7 +93,6 @@ public class JacksonUtils {
   /**
    * 字符串转换为 Map<String, T>
    * @return map结构
-   * @throws JsonProcessingException 异常
    */
   public static <T> Map<String, T> json2Map(String jsonString, Class<T> clazz) {
     Map<String, Map<String, Object>> map;
@@ -128,11 +127,17 @@ public class JacksonUtils {
    * @return
    * @throws Exception
    */
-  private static List<Object> json2ListRecursion(String json, ObjectMapper mapper) throws Exception {
+  private static List<Object> json2ListRecursion(String json, ObjectMapper mapper) {
     if (json == null) {
       return new ArrayList<>();
     }
-    List<Object> list = mapper.readValue(json, List.class);
+    List<Object> list;
+    try {
+      list = mapper.readValue(json, List.class);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+      return new ArrayList<>();
+    }
     for (Object obj : list) {
       if (obj instanceof String) {
         String str = (String) obj;
@@ -184,7 +189,6 @@ public class JacksonUtils {
    * @param clazz 类
    * @param <T> 泛型
    * @return 对象
-   * @throws JsonProcessingException 异常
    */
   public static <T> List<T> jsonArrayStr2List(String jsonArrayStr, Class<T> clazz) {
     JavaType javaType = getCollectionType(ArrayList.class, clazz);
@@ -213,7 +217,7 @@ public class JacksonUtils {
    * @param <T> 泛型
    * @return java对象
    */
-  public static <T> T map2pojo(Map map, Class<T> clazz) {
+  public static <T> T map2pojo(Map<String, Object> map, Class<T> clazz) {
     return MAPPER.convertValue(map, clazz);
   }
 
@@ -222,7 +226,7 @@ public class JacksonUtils {
    * @param map map形式
    * @return json形式
    */
-  public static String map2JsonString(Map map) {
+  public static String map2JsonString(Map<String, Object> map) {
     try {
       return MAPPER.writeValueAsString(map);
     } catch (Exception e) {
