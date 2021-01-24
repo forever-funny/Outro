@@ -2,7 +2,7 @@ package com.manager.gateway.vo;
 
 /**
  * @author : Outro
- * Description :
+ * Description : 网关统一响应格式
  **/
 public class ResponseVo {
 
