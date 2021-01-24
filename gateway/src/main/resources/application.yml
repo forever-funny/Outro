@@ -11,7 +11,7 @@ spring:
         - id: manager
           uri: http://localhost:8080
           predicates:
-            - Path=/api/v1/**
+            - Path=/api/v1/**,/api/v2/**
     nacos:
       discovery:
         username: nacos
@@ -26,20 +26,18 @@ spring:
   cloud:
     nacos:
       discovery:
-        group: GATEWAY
+        group: GATEWAY_DEV
 ---
 spring:
   profiles: test
   cloud:
     nacos:
       discovery:
-        namespace: 121d8fb4-3020-4018-8a69-8b1e332b847f
-        group: GATEWAY
+        group: GATEWAY_TEST
 ---
 spring:
   profiles: product
   cloud:
     nacos:
       discovery:
-        namespace: 121d8fb4-3020-4018-8a69-8b1e332b847f
-        group: GATEWAY
+        group: GATEWAY_PRODUCT
