@@ -7,8 +7,8 @@
 默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
 <configuration scan="true" scanPeriod="30 s" debug="false">
     <!-- 定义日志文件输出路径 -->
-    <property name="destination" value="logs/manager"/>
-    <property name="jarName" value="MANAGER"/>
+    <property name="destination" value="logs/gateway"/>
+    <property name="jarName" value="GATEWAY"/>
     <!-- 历史日志保留时长:7天,不包含当天日志 -->
     <property name="maxHistory" value="7"/>
 

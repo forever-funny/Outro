@@ -1,0 +1,45 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: gateway
+  profiles:
+    active: dev
+  cloud:
+    gateway:
+      routes:
+        - id: manager
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/v1/**
+    nacos:
+      discovery:
+        username: nacos
+        password: nacos
+        server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+        namespace: 121d8fb4-3020-4018-8a69-8b1e332b847f
+logging:
+  config: classpath:logback.xml
+---
+spring:
+  profiles: dev
+  cloud:
+    nacos:
+      discovery:
+        group: GATEWAY
+---
+spring:
+  profiles: test
+  cloud:
+    nacos:
+      discovery:
+        namespace: 121d8fb4-3020-4018-8a69-8b1e332b847f
+        group: GATEWAY
+---
+spring:
+  profiles: product
+  cloud:
+    nacos:
+      discovery:
+        namespace: 121d8fb4-3020-4018-8a69-8b1e332b847f
+        group: GATEWAY
