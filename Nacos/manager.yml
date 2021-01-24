@@ -4,14 +4,24 @@ netty:
   boss-number: 1
   worker-number: 4
   timeout-sec: 60
+schedule:
+  thread-number: 2
+  thread-prefix: schedule
+  print-job-interval: 10000
 # 定义kafka相关配置参数
 kafka:
-  host: 192.168.1.50:9092,192.168.1.51:9092,192.168.1.52:9092
+  host: 192.168.1.20:9092
   consumer:
     topic: manager_consumer_1
     group: default
   producer:
-    topic: manager_producer_4
+    topic: manager_producer_1
     key-serializer: org.apache.kafka.common.serialization.StringSerializer
     value-serializer: org.apache.kafka.common.serialization.StringSerializer
     request-message-size: 10486760
+db:
+  manager:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/managerdb?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    username: root
+    password: 123456
